@@ -1,0 +1,1559 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.5",
+    "title": "API docs",
+    "description": "API documentation for GoIT project 'Goose Track V1'. [Backend github repository](https://github.com/Himadieiev/rustem-writer-api) | [Privacy Policy](https://https://rustem-writer-api.onrender.com/)",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "servers": [
+    {
+      "url": "https://https://rustem-writer-api.onrender.com/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authorization endpoints"
+    },
+    {
+      "name": "Users",
+      "description": "Users endpoints"
+    },
+    {
+      "name": "Reviews",
+      "description": "Reviews endpoints"
+    },
+    {
+      "name": "Tasks",
+      "description": "Tasks endpoints"
+    }
+  ],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User registration",
+        "parameters": [],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required name field",
+            "content": {}
+          },
+          "409": {
+            "description": "Email in use",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User authentication",
+        "parameters": [],
+        "requestBody": {
+          "description": "Authentication's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required name field",
+            "content": {}
+          },
+          "401": {
+            "description": "Email or password is wrong",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User logout",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "204": {
+            "description": "Successful operation",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/users/current": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get current user",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCurrentUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required name field",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Invalid user",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/users/edit": {
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Update user's data",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "User object with updated information",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required name field",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "409": {
+            "description": "Email in use",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/reviews": {
+      "get": {
+        "tags": ["Reviews"],
+        "summary": "Get all reviews",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllReviewsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/reviews/own": {
+      "get": {
+        "tags": ["Reviews"],
+        "summary": "Get own review",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOwnReviewResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      },
+      "post": {
+        "tags": ["Reviews"],
+        "summary": "Create own review",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Review's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOwnReviewRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateOwnReviewResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Reviews"],
+        "summary": "Update own review",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Review's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOwnReviewRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateOwnReviewResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Reviews"],
+        "summary": "Delete own review",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "204": {
+            "description": "Successful operation",
+            "content": {}
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/tasks/{date}": {
+      "get": {
+        "tags": ["Tasks"],
+        "summary": "Get tasks for the month",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "date",
+            "required": true
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetTasksResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      },
+      "post": {
+        "tags": ["Tasks"],
+        "summary": "Create task",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Task's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatTaskRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatTaskResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/tasks/{taskId}": {
+      "patch": {
+        "tags": ["Tasks"],
+        "summary": "Update task",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "taskId",
+            "required": true
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Task's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTaskRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateTaskResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Tasks"],
+        "summary": "Delete task",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "taskId",
+            "required": true
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteTaskResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RegistrationRequest": {
+        "type": "object",
+        "required": ["email", "password", "name"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "minLength": 2,
+            "maxLength": 100,
+            "example": "Nadiia Doe"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "minLength": 3,
+            "maxLength": 30
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "minLength": 8,
+            "maxLength": 100,
+            "example": "qwerty123"
+          }
+        }
+      },
+      "RegistrationResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "User's id",
+            "example": "64bbdccc1f9a9abd2d63f28e"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "minLength": 2,
+            "maxLength": 100,
+            "example": "Nadiia Doe"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "minLength": 3,
+            "maxLength": 30
+          },
+          "phone": {
+            "type": "string",
+            "default": null,
+            "description": "User's phone number",
+            "example": "+380972563477"
+          },
+          "birthday": {
+            "type": "string",
+            "default": null,
+            "description": "User's birthday in format DD/MM/YYYY",
+            "example": "25/08/1995"
+          },
+          "telegram": {
+            "type": "string",
+            "default": null,
+            "description": "User's telegram login",
+            "example": "telegramusername"
+          },
+          "skype": {
+            "type": "string",
+            "description": "User's updated skype login",
+            "example": "skypeusername"
+          },
+          "avatarURL": {
+            "type": "string",
+            "description": "User's avatarURL",
+            "example": "31f3bfggn51fh32133jm312cfg13.jpg"
+          },
+          "token": {
+            "type": "string",
+            "default": null,
+            "description": "User's token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJydXNsYW5AbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE2OTE3NDQ1OTYsImV4cCI6MTY5MTgzMDk5Nn0.86dB5MkOB8XTj13jrQ6yqVU0C0-mBCUrY54lKc1xdFA"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creating user's data",
+            "example": "2023-08-26T09:30:30.547Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Updating user's data",
+            "example": "2023-08-26T09:30:30.547Z"
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "minLength": 3,
+            "maxLength": 30
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "minLength": 8,
+            "maxLength": 100,
+            "example": "qwerty123"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "User's id",
+            "example": "64bbdccc1f9a9abd2d63f28e"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "minLength": 2,
+            "maxLength": 100,
+            "example": "Nadiia Doe"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "minLength": 3,
+            "maxLength": 30
+          },
+          "phone": {
+            "type": "string",
+            "default": null,
+            "description": "User's phone number",
+            "example": "+380972563477"
+          },
+          "birthday": {
+            "type": "string",
+            "default": null,
+            "description": "User's birthday in format DD/MM/YYYY",
+            "example": "25/08/1995"
+          },
+          "telegram": {
+            "type": "string",
+            "default": null,
+            "description": "User's telegram login",
+            "example": "telegramusername"
+          },
+          "skype": {
+            "type": "string",
+            "description": "User's updated skype login",
+            "example": "skypeusername"
+          },
+          "avatarURL": {
+            "type": "string",
+            "description": "User's avatarURL",
+            "example": "31f3bfggn51fh32133jm312cfg13.jpg"
+          },
+          "token": {
+            "type": "string",
+            "default": null,
+            "description": "User's token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJydXNsYW5AbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE2OTE3NDQ1OTYsImV4cCI6MTY5MTgzMDk5Nn0.86dB5MkOB8XTj13jrQ6yqVU0C0-mBCUrY54lKc1xdFA"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creating user's data",
+            "example": "2023-08-26T09:30:30.547Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Updating user's data",
+            "example": "2023-08-26T09:30:30.547Z"
+          }
+        }
+      },
+      "GetCurrentUserResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "User's id",
+            "example": "64bbdccc1f9a9abd2d63f28e"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "minLength": 2,
+            "maxLength": 100,
+            "example": "Nadiia Doe"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "minLength": 3,
+            "maxLength": 30
+          },
+          "phone": {
+            "type": "string",
+            "default": null,
+            "description": "User's phone number",
+            "example": "+380972563477"
+          },
+          "birthday": {
+            "type": "string",
+            "default": null,
+            "description": "User's birthday in format DD/MM/YYYY",
+            "example": "25/08/1995"
+          },
+          "telegram": {
+            "type": "string",
+            "default": null,
+            "description": "User's telegram login",
+            "example": "telegramusername"
+          },
+          "skype": {
+            "type": "string",
+            "description": "User's updated skype login",
+            "example": "skypeusername"
+          },
+          "avatarURL": {
+            "type": "string",
+            "description": "User's avatarURL",
+            "example": "31f3bfggn51fh32133jm312cfg13.jpg"
+          },
+          "token": {
+            "type": "string",
+            "default": null,
+            "description": "User's token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJydXNsYW5AbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE2OTE3NDQ1OTYsImV4cCI6MTY5MTgzMDk5Nn0.86dB5MkOB8XTj13jrQ6yqVU0C0-mBCUrY54lKc1xdFA"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creating user's data",
+            "example": "2023-08-26T09:30:30.547Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Updating user's data",
+            "example": "2023-08-26T09:30:30.547Z"
+          }
+        }
+      },
+      "UpdateUserRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's new name",
+            "minLength": 2,
+            "maxLength": 100,
+            "example": "Nadiia"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's new email",
+            "format": "email",
+            "minLength": 3,
+            "maxLength": 30
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's new phone number",
+            "example": "+380972563477"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "User's new birthday in format DD/MM/YYYY",
+            "example": "25/08/1995"
+          },
+          "telegram": {
+            "type": "string",
+            "description": "User's new telegram login",
+            "example": "newtelegramusername"
+          },
+          "avatar": {
+            "type": "file",
+            "description": "User's new avatarURL",
+            "example": "31f3bfggn51fh32133jm312cfg13.jpg"
+          }
+        }
+      },
+      "UpdateUserResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "User's id",
+            "example": "64bbdccc1f9a9abd2d63f28e"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's updated name",
+            "minLength": 2,
+            "maxLength": 100,
+            "example": "Nadiia"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's updated email",
+            "format": "email",
+            "minLength": 3,
+            "maxLength": 30
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's updated phone number",
+            "example": "+380972563477"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "User's updated birthday in format DD/MM/YYYY",
+            "example": "25/08/1995"
+          },
+          "telegram": {
+            "type": "string",
+            "description": "User's updated telegram login",
+            "example": "telegramusername"
+          },
+          "skype": {
+            "type": "string",
+            "description": "User's updated skype login",
+            "example": "skypeusername"
+          },
+          "avatarURL": {
+            "type": "string",
+            "description": "User's updated avatarURL",
+            "example": "31f3bfggn51fh32133jm312cfg13.jpg"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creating user's data",
+            "example": "2023-08-26T09:30:30.547Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Updating user's data",
+            "example": "2023-08-27T10:30:30.547Z"
+          }
+        }
+      },
+      "GetAllReviewsResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "Review's id",
+              "example": "64bbdccc1f9a9abd2d63f28e"
+            },
+            "owner": {
+              "type": "object",
+              "description": "owner",
+              "example": {
+                "_id": "64bbdccc1f9a9abd2d63f28e",
+                "avatarURL": "31f3bfggn51fh32133jm312cfg13.jpg",
+                "name": "Nadiia Doe"
+              }
+            },
+            "rating": {
+              "type": "number",
+              "default": 1,
+              "description": "Review's rating",
+              "minimum": 1,
+              "maximum": 5,
+              "example": 2
+            },
+            "text": {
+              "type": "string",
+              "description": "Review's text",
+              "minLength": 1,
+              "maxLength": 300,
+              "example": "GooseTrack is impressive, the calendar view and filter options make it easy to stay organized and focused. Highly recommended."
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Creating review's data",
+              "example": "2023-08-26T09:30:30.547Z"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Updating review's data",
+              "example": "2023-08-26T09:30:30.547Z"
+            }
+          }
+        }
+      },
+      "GetOwnReviewResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Review's id",
+            "example": "64bbdccc1f9a9abd2d63f28e"
+          },
+          "owner": {
+            "type": "object",
+            "description": "owner",
+            "example": {
+              "_id": "64bbdccc1f9a9abd2d63f28e",
+              "avatarURL": "31f3bfggn51fh32133jm312cfg13.jpg",
+              "name": "Nadiia Doe"
+            }
+          },
+          "rating": {
+            "type": "number",
+            "default": 1,
+            "description": "Review's rating",
+            "minimum": 1,
+            "maximum": 5,
+            "example": 2
+          },
+          "text": {
+            "type": "string",
+            "description": "Review's text",
+            "minLength": 1,
+            "maxLength": 300,
+            "example": "GooseTrack is impressive, the calendar view and filter options make it easy to stay organized and focused. Highly recommended."
+          },
+
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creating review's data",
+            "example": "2023-08-26T09:30:30.547Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Updating review's data",
+            "example": "2023-08-26T09:30:30.547Z"
+          }
+        }
+      },
+      "CreateOwnReviewRequest": {
+        "type": "object",
+        "required": ["text"],
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "Review's text",
+            "minLength": 1,
+            "maxLength": 300,
+            "example": "GooseTrack is impressive, the calendar view and filter options make it easy to stay organized and focused. Highly recommended."
+          },
+          "rating": {
+            "type": "number",
+            "default": 1,
+            "description": "Review's rating",
+            "minimum": 1,
+            "maximum": 5,
+            "example": 2
+          }
+        }
+      },
+      "CreateOwnReviewResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Review's id",
+            "example": "64bbdccc1f9a9abd2d63f28e"
+          },
+          "owner": {
+            "type": "object",
+            "description": "owner",
+            "example": {
+              "_id": "64bbdccc1f9a9abd2d63f28e",
+              "avatarURL": "31f3bfggn51fh32133jm312cfg13.jpg",
+              "name": "Nadiia Doe"
+            }
+          },
+          "rating": {
+            "type": "number",
+            "default": 1,
+            "description": "Review's rating",
+            "minimum": 1,
+            "maximum": 5,
+            "example": 2
+          },
+          "text": {
+            "type": "string",
+            "description": "Review's text",
+            "minLength": 1,
+            "maxLength": 300,
+            "example": "GooseTrack is impressive, the calendar view and filter options make it easy to stay organized and focused. Highly recommended."
+          },
+
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creating review's data",
+            "example": "2023-08-26T09:30:30.547Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Updating review's data",
+            "example": "2023-08-26T09:30:30.547Z"
+          }
+        }
+      },
+      "UpdateOwnReviewRequest": {
+        "type": "object",
+        "properties": {
+          "rating": {
+            "type": "number",
+            "default": 1,
+            "description": "Review's rating",
+            "minimum": 1,
+            "maximum": 5,
+            "example": 2
+          },
+          "text": {
+            "type": "string",
+            "description": "Review's text",
+            "minLength": 1,
+            "maxLength": 300,
+            "example": "Sorry, but I didn't like this app"
+          }
+        }
+      },
+      "UpdateOwnReviewResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Review's id",
+            "example": "64bbdccc1f9a9abd2d63f28e"
+          },
+          "owner": {
+            "type": "object",
+            "description": "owner",
+            "example": {
+              "_id": "64bbdccc1f9a9abd2d63f28e",
+              "avatarURL": "31f3bfggn51fh32133jm312cfg13.jpg",
+              "name": "Nadiia Doe"
+            }
+          },
+          "rating": {
+            "type": "number",
+            "default": 1,
+            "description": "Review's rating",
+            "minimum": 1,
+            "maximum": 5,
+            "example": 2
+          },
+          "text": {
+            "type": "string",
+            "description": "Review's text",
+            "minLength": 1,
+            "maxLength": 300,
+            "example": "Sorry, but I didn't like this app"
+          },
+
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creating review's data",
+            "example": "2023-08-26T09:30:30.547Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Updating review's data",
+            "example": "2023-08-27T09:30:30.547Z"
+          }
+        }
+      },
+      "GetTasksResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "Task's id",
+              "example": "64bbdccc1f9a9abd2d63f28e"
+            },
+            "title": {
+              "type": "string",
+              "description": "Task's title",
+              "minLength": 2,
+              "maxLength": 250,
+              "example": "Review and update my portfolio"
+            },
+            "start": {
+              "type": "string",
+              "description": "Task's start",
+              "format": "time",
+              "example": "9:00"
+            },
+            "end": {
+              "type": "string",
+              "description": "Task's end",
+              "format": "time",
+              "example": "12:00"
+            },
+            "priority": {
+              "type": "string",
+              "default": "low",
+              "description": "Task's priority",
+              "enum": ["low", "medium", "high"]
+            },
+            "date": {
+              "type": "string",
+              "description": "Task's date",
+              "format": "date",
+              "example": "2023-08-28"
+            },
+            "category": {
+              "type": "string",
+              "default": "to-do",
+              "description": "Task's category",
+              "enum": ["to-do", "in-progress", "done"]
+            },
+            "owner": {
+              "type": "object",
+              "description": "Task's owner ID",
+              "example": {
+                "_id": "64bbdccc1f9a9abd2d63f28e",
+                "avatarURL": "31f3bfggn51fh32133jm312cfg13.jpg"
+              }
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Creating task's data",
+              "example": "2023-08-26T09:30:30.547Z"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Updating task's data",
+              "example": "2023-08-26T09:30:30.547Z"
+            }
+          }
+        }
+      },
+      "CreatTaskRequest": {
+        "type": "object",
+        "required": [
+          "title",
+          "start",
+          "end",
+          "priority",
+          "date",
+          "category"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Task's title",
+            "minLength": 2,
+            "maxLength": 250,
+            "example": "Review and update my portfolio"
+          },
+          "start": {
+            "type": "string",
+            "description": "Task's start",
+            "format": "time",
+            "example": "9:00"
+          },
+          "end": {
+            "type": "string",
+            "description": "Task's end",
+            "format": "time",
+            "example": "12:00"
+          },
+          "priority": {
+            "type": "string",
+            "default": "low",
+            "description": "Task's priority",
+            "enum": ["low", "medium", "high"]
+          },
+          "date": {
+            "type": "string",
+            "description": "Task's date",
+            "format": "date",
+            "example": "2023-08-28"
+          },
+          "category": {
+            "type": "string",
+            "default": "to-do",
+            "description": "Task's category",
+            "enum": ["to-do", "in-progress", "done"]
+          }
+        }
+      },
+      "CreatTaskResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Task's id",
+            "example": "64bbdccc1f9a9abd2d63f28e"
+          },
+          "title": {
+            "type": "string",
+            "description": "Task's title",
+            "minLength": 2,
+            "maxLength": 250,
+            "example": "Review and update my portfolio"
+          },
+          "start": {
+            "type": "string",
+            "description": "Task's start",
+            "format": "time",
+            "example": "9:00"
+          },
+          "end": {
+            "type": "string",
+            "description": "Task's end",
+            "format": "time",
+            "example": "12:00"
+          },
+          "priority": {
+            "type": "string",
+            "default": "low",
+            "description": "Task's priority",
+            "enum": ["low", "medium", "high"]
+          },
+          "date": {
+            "type": "string",
+            "description": "Task's date",
+            "format": "date",
+            "example": "2023-08-28"
+          },
+          "category": {
+            "type": "string",
+            "default": "to-do",
+            "description": "Task's category",
+            "enum": ["to-do", "in-progress", "done"]
+          },
+          "owner": {
+            "type": "object",
+            "description": "Task's owner ID",
+            "example": {
+              "_id": "64bbdccc1f9a9abd2d63f28e",
+              "avatarURL": "31f3bfggn51fh32133jm312cfg13.jpg"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creating task's data",
+            "example": "2023-08-26T09:30:30.547Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Updating task's data",
+            "example": "2023-08-26T09:30:30.547Z"
+          }
+        }
+      },
+      "UpdateTaskRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Task's title",
+            "minLength": 2,
+            "maxLength": 250,
+            "example": "Update my portfolio"
+          },
+          "start": {
+            "type": "string",
+            "description": "Task's start",
+            "format": "time",
+            "example": "12:00"
+          },
+          "end": {
+            "type": "string",
+            "description": "Task's end",
+            "format": "time",
+            "example": "15:00"
+          },
+          "priority": {
+            "type": "string",
+            "default": "low",
+            "description": "Task's priority",
+            "enum": ["low", "medium", "high"]
+          },
+          "date": {
+            "type": "string",
+            "description": "Task's date",
+            "format": "date",
+            "example": "2023-08-29"
+          },
+          "category": {
+            "type": "string",
+            "default": "to-do",
+            "description": "Task's category",
+            "enum": ["to-do", "in-progress", "done"]
+          }
+        }
+      },
+      "UpdateTaskResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Task's id",
+            "example": "64bbdccc1f9a9abd2d63f28e"
+          },
+          "title": {
+            "type": "string",
+            "description": "Task's title",
+            "minLength": 2,
+            "maxLength": 250,
+            "example": "Update my portfolio"
+          },
+          "start": {
+            "type": "string",
+            "description": "Task's start",
+            "format": "time",
+            "example": "12:00"
+          },
+          "end": {
+            "type": "string",
+            "description": "Task's end",
+            "format": "time",
+            "example": "15:00"
+          },
+          "priority": {
+            "type": "string",
+            "default": "low",
+            "description": "Task's priority",
+            "enum": ["low", "medium", "high"]
+          },
+          "date": {
+            "type": "string",
+            "description": "Task's date",
+            "format": "date",
+            "example": "2023-08-29"
+          },
+          "category": {
+            "type": "string",
+            "default": "to-do",
+            "description": "Task's category",
+            "enum": ["to-do", "in-progress", "done"]
+          },
+          "owner": {
+            "type": "object",
+            "description": "Task's owner ID",
+            "example": {
+              "_id": "64bbdccc1f9a9abd2d63f28e",
+              "avatarURL": "31f3bfggn51fh32133jm312cfg13.jpg"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creating task's data",
+            "example": "2023-08-26T09:30:30.547Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Updating task's data",
+            "example": "2023-08-27T09:30:30.547Z"
+          }
+        }
+      },
+      "DeleteTaskResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Task's id",
+            "example": "64bbdccc1f9a9abd2d63f28e"
+          },
+          "title": {
+            "type": "string",
+            "description": "Task's title",
+            "minLength": 2,
+            "maxLength": 250,
+            "example": "Update my portfolio"
+          },
+          "start": {
+            "type": "string",
+            "description": "Task's start",
+            "format": "time",
+            "example": "12:00"
+          },
+          "end": {
+            "type": "string",
+            "description": "Task's end",
+            "format": "time",
+            "example": "15:00"
+          },
+          "priority": {
+            "type": "string",
+            "default": "low",
+            "description": "Task's priority",
+            "enum": ["low", "medium", "high"]
+          },
+          "date": {
+            "type": "string",
+            "description": "Task's date",
+            "format": "date",
+            "example": "2023-08-29"
+          },
+          "category": {
+            "type": "string",
+            "default": "to-do",
+            "description": "Task's category",
+            "enum": ["to-do", "in-progress", "done"]
+          },
+          "owner": {
+            "type": "object",
+            "description": "Task's owner ID",
+            "example": {
+              "_id": "64bbdccc1f9a9abd2d63f28e",
+              "avatarURL": "31f3bfggn51fh32133jm312cfg13.jpg"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creating task's data",
+            "example": "2023-08-26T09:30:30.547Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Updating task's data",
+            "example": "2023-08-27T09:30:30.547Z"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
