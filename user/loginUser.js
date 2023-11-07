@@ -52,12 +52,10 @@ const loginUser = async (req, res, next) => {
       email: req.body.email,
       phone: user.phone,
       birthday: user.birthday,
-      telegram: user.telegram,
       avatarURL: user.avatarURL,
       token,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
-      skype: user.skype,
     });
   } catch (error) {
     console.error("Error login user", error);

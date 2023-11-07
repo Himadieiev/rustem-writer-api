@@ -4,6 +4,7 @@ const hendleMongodbError = require("../helpers/hendleMongodbError");
 
 const Joi = require("joi");
 
+// eslint-disable-next-line no-useless-escape
 const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?w+)*(\.\w{2,3})+$/;
 
 const userSchema = new Schema(
@@ -36,8 +37,6 @@ const userSchema = new Schema(
       default: null,
     },
     birthday: { type: String, default: null },
-    telegram: { type: String, default: null },
-    skype: { type: String, default: null },
     createdAt: { type: String, default: Date.now() },
     updatedAt: { type: String, default: null },
   },
