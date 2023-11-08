@@ -54,7 +54,7 @@ const joiUserSchema = Joi.object({
     "string.empty": "The email must not be empty.",
     "string.pattern.base": "The email must be in format test@gmail.com.",
   }),
-  password: Joi.string().min(8).required().messages({
+  password: Joi.string().min(3).required().messages({
     "string.base": "The password must be a string.",
     "any.required": "The password field is required.",
     "string.min": "min length of password must be 8",
@@ -73,7 +73,7 @@ const loginJoiSchema = Joi.object({
     "string.empty": "The email must not be empty.",
     "string.pattern.base": "The email must be in format test@gmail.com.",
   }),
-  password: Joi.string().min(8).required().empty(false).messages({
+  password: Joi.string().min(3).required().empty(false).messages({
     "string.base": "The password must be a string.",
     "any.required": "The password field is required.",
     "string.min": "min length of password must be 8",
