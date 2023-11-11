@@ -7,7 +7,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const authRouter = require("./routes/api/auth");
-// const TasksRouter = require("./routes/api/tasks");
+const postsRouter = require("./routes/api/posts");
 // const reviewsRouter = require("./routes/api/reviews");
 const userRouter = require("./routes/api/users");
 
@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(express.static("public"));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-// app.use("/api/tasks", TasksRouter);
+app.use("/api/posts", postsRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 // app.use("/api/reviews", reviewsRouter);
