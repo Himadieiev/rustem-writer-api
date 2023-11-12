@@ -2,16 +2,20 @@ const { Post } = require("../models/posts");
 
 async function getAllPosts(req, res, next) {
   try {
-    const taskdate = req.params.date;
+    const posts = await Post.find();
 
-    const posts = await Post.find({
-      owner: req.user._id,
-      date: { $regex: taskdate, $options: "i" },
-    }).populate("owner", "avatarURL");
-    res.send(posts);
+    console.log(posts);
+
+    if (posts.length === 0) {
+      return res.status(404).json({ message: "No posts" });
+    }
+
+    res.status(200).json(posts);
   } catch (error) {
-    console.error("Error adding Post:", error);
-    res.status(500).json({ message: "Error adding Post" });
+    console.error("Error getting Post:", error);
+    res
+      .status(500)
+      .json({ message: "Error getting Post", error: error.message });
   }
 }
 

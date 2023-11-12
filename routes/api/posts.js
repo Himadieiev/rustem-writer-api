@@ -2,22 +2,19 @@ const express = require("express");
 
 const getAllPosts = require("../../posts/getAllPosts");
 const addPost = require("../../posts/addPost");
-// const deleteTask = require("../../tasks/deleteTask");
-// const updateTask = require("../../tasks/updateTask");
+// const deletePost = require("../../posts/deletePost");
+// const updatePost = require("../../posts/updatePost");
 
-const hendleJwtControler = require("../../midlewares/hendleJwtControler");
-// const getAllTaskSometimes = require("../../tasks/getAllTaskSometimes");
+const hendleJwtControler = require("../../middlewares/hendleJwtControler");
 
 const router = express.Router();
 
-// router.get("/", hendleJwtControler, getAllTaskSometimes);
-
-router.get("/:date", hendleJwtControler, getAllPosts);
+router.get("/", hendleJwtControler, getAllPosts);
 
 router.post("/", hendleJwtControler, addPost);
 
-// router.delete("/:taskId", hendleJwtControler, deleteTask);
+// router.delete("/:postId", hendleJwtControler, deletePost);
 
-// router.patch("/:taskId", hendleJwtControler, updateTask);
+// router.patch("/:postId", hendleJwtControler, updatePost);
 
 module.exports = router;
