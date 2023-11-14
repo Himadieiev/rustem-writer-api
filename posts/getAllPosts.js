@@ -1,6 +1,6 @@
 const { Post } = require("../models/posts");
 
-async function getAllPosts(req, res, next) {
+const getAllPosts = async (req, res, next) => {
   try {
     const posts = await Post.find();
 
@@ -17,6 +17,6 @@ async function getAllPosts(req, res, next) {
       .status(500)
       .json({ message: "Error getting Post", error: error.message });
   }
-}
+};
 
 module.exports = getAllPosts;
